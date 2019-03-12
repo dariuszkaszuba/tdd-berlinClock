@@ -1,6 +1,8 @@
 package pl.ciecierski;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -10,14 +12,18 @@ public class StringCalculator {
       return 0;
     }
 
-    List<Integer> numbersAsString = parseNumbers(inputString);
-    String negativesNumbersPartExMsg = numbersAsString.stream().filter(i -> i < 0)
-            .map(i -> i.toString())
-            .collect(Collectors.joining(","));
-    if (!negativesNumbersPartExMsg.isEmpty())
-      throw new IllegalArgumentException("negatives not allowed: " + negativesNumbersPartExMsg);
-
-    return numbersAsString.stream().reduce(Integer::sum).orElse(0);
+    List<Integer> numbers = parseNumbers(inputString);
+    StringJoiner stringJoiner = new StringJoiner(",");
+    for (Integer integer : numbers) {
+      if (integer < 0) {
+        stringJoiner.add(integer.toString());
+      }
+    }
+    if (stringJoiner.length() != 0) {
+      String returnedNumbers = stringJoiner.toString();
+      throw new IllegalArgumentException("negatives not allowed: " + returnedNumbers);
+    }
+    return numbers.stream().reduce(Integer::sum).orElse(0);
   }
 
   private static List<Integer> parseNumbers(String inputString) {
