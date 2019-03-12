@@ -11,7 +11,6 @@ public class StringCalculator {
     if (inputString.isEmpty()) {
       return 0;
     }
-
     List<Integer> numbers = parseNumbers(inputString);
     StringJoiner stringJoiner = new StringJoiner(",");
     for (Integer integer : numbers) {
